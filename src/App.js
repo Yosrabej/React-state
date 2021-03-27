@@ -11,18 +11,29 @@ class App extends React.Component {
                 profession: "this is my profession",
                 imgSrc: Pic,
             },
+
             time: 0,
             show: false,
         };
     }
-    componentDidMount = () => {
-        setInterval(() => {
-            this.setState((prevState) => ({ time: prevState.time + 1 }));
-        }, 1000);
-    };
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.show != this.state.show) {
+            setInterval(() => {
+                this.setState((prevState) => ({
+                    hours:
+                        new Date().getHours() +
+                        ":" +
+                        new Date().getMinutes() +
+                        ":" +
+                        (new Date().getSeconds() + 1),
+                }));
+            }, 1000);
+        }
+    }
 
     hidePerson = () => {
-        this.setState((state) => ({ show: !this.state.show }));
+        // this.setState((state) => ({ show: !this.state.show }));
+        this.setState({ show: !this.state.show });
     };
     render() {
         return (
@@ -58,7 +69,7 @@ class App extends React.Component {
                                 borderRadius: "100px",
                             }}
                         />
-                        Time:{this.state.time}
+                        Time: {this.state.hours}
                         <h1>Hello I am {this.state.Person.name}</h1>
                         <p>
                             {this.state.Person.bio} <br />
